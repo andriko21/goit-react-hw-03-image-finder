@@ -16,3 +16,4 @@ code {
 @import url(./Components/ImageGallery/ImageGallery.module.css);
 @import url(./Components/ImageGalleryItem/ImageGalleryItem.module.css);
 @import url(./Components/Button/Button.module.css);
+@import url(./Components/Modal/Modal.module.css);

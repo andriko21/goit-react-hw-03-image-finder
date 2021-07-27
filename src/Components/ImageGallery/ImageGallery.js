@@ -2,15 +2,16 @@ import React from "react";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import style from "./ImageGallery.module.css";
 
-const ImageGallery = ({ images }) => {
+const ImageGallery = ({ images, openModal }) => {
   return (
-    <ul className={style.ImageGallery}>
+    <ul className={style.ImageGallery} onClick={openModal}>
       {images.map(({ previewURL, largeImageURL, tags }, index) => (
         <ImageGalleryItem
           previewURL={previewURL}
-          largeImageUR={largeImageURL}
+          largeImageURL={largeImageURL}
           tags={tags}
           key={index}
+          
         />
       ))}
     </ul>

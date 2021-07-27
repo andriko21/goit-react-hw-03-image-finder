@@ -4,8 +4,8 @@ import SearchApi from "../SearchApi/SearchApi";
 import ImageGallary from "../ImageGallery/ImageGallery";
 import Button from "../Button/Button";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-// import Loader from "react-loader-spinner";
 import LoaderFunc from "../Loader/Loader";
+import Modal from "../Modal/Modal";
 import style from "./App.module.css";
 
 class App extends Component {
@@ -15,6 +15,11 @@ class App extends Component {
     page: 1,
     btnVisible: false,
     loaderStatus: false,
+    showModal: false,
+    modalImg: {
+      url: null,
+      alt: null,
+    },
   };
 
   onChangeQwery = async (ev) => {
@@ -69,6 +74,28 @@ class App extends Component {
     });
   };
 
+  openModal = ({ target, currTarget }) => {
+    if (target === currTarget) {
+      return;
+    }
+    console.log(target)
+
+    this.setState({
+      showModal: true,
+      modalImg: {
+        url: target.getAttribute('data'),
+        alt: target.getAttribute('alt'),
+      },
+    });
+  };
+
+  closeModal = () => {
+     
+    this.setState({
+      showModal: false,
+    });
+  };
+
   incerement = () => {
     this.setState((prevState) => ({
       page: prevState.page + 1,
@@ -76,13 +103,25 @@ class App extends Component {
   };
 
   render() {
-    const { onChangeQwery, incerement } = this;
-    const { imageCollection, btnVisible, loaderStatus } = this.state;
+    const { onChangeQwery, incerement, closeModal, openModal} = this;
+    const {
+      imageCollection,
+      btnVisible,
+      loaderStatus,
+      showModal,
+
+      modalImg: { url, alt },
+    } = this.state;
     return (
       <div className={style.App}>
         <SearchBar onSubmit={onChangeQwery} />
-        <ImageGallary images={imageCollection} />
+        <ImageGallary images={imageCollection} openModal={ openModal}/>
         {loaderStatus && <LoaderFunc />}
+        {showModal && (
+          <Modal closeModal={closeModal}>
+            <img src={url} alt={alt} className={ style.modalImg}/>
+          </Modal>
+        )}
 
         {btnVisible && <Button newImages={incerement} />}
       </div>
